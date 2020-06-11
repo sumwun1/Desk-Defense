@@ -1,25 +1,11 @@
 # Pencil Defense
 Everything is due today. 
 
-This game is 100%...
-action-free. 
-RNG-free. 
-dialog-free. 
-win condition-free. 
-code-free. 
+This game is 100%, action-free, RNG-free, treasure-free, dialog-free, win-condition-free, sidequest-free, and code-free. 
 
-Software used: 
-Unity
-GitHub
-Visual Studio
-Paint
-YTMP3
-Audacity
-Voice Recorder
-Roblox
+Software used: Unity, GitHub, Visual Studio, Paint, YTMP3, Audacity, Voice Recorder, Roblox
 
-Soundtrack: Crystal Windows Error Remix
-https://www.youtube.com/watch?v=B7B2wLtVyeg
+Soundtrack: Crystal Windows Error Remix (https://www.youtube.com/watch?v=B7B2wLtVyeg)
 
 This game is mostly inspired by the original Bloons Tower Defense. 
 
