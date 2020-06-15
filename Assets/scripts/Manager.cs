@@ -29,11 +29,12 @@ public class Manager : MonoBehaviour
 			if(time <= 0){
 				if(moveHomework){
 					homeworks = GameObject.FindObjectsOfType<Homework>();
-				    pin.Turn();
                 	
 				    for(int a = 0; a < homeworks.Length; a++){
 					    homeworks[a].Turn();
 				    }
+					
+					pin.Turn();
 				}else{
 					
 				}

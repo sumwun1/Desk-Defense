@@ -20,7 +20,7 @@ public class Homework : MonoBehaviour
 
     public void Turn()
     {
-        if(deskIndex < 1){
+        if(deskIndex < 16){
 			transform.position = desks.transform.GetChild(deskIndex).transform.position;
 		}else{
 			transform.position = b.transform.position;
