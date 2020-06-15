@@ -1,9 +1,9 @@
 # Pencil Defense
 Everything is due today. 
 
-This game is 100% action-free, RNG-free, treasure-free, dialog-free, win-condition-free, sidequest-free, projectile-free, and code-free. 
+This game is 100% action-free, RNG-free, treasure-free, dialog-free, win-condition-free, sidequest-free, and projectile-free. 
 
-Software used: Unity, GitHub, Visual Studio, Paint, YTMP3, Audacity, Voice Recorder, Roblox
+Software used: Unity, GitHub, Visual Studio, Notepad++, Paint, YTMP3, Audacity, Voice Recorder, Roblox
 
 Soundtrack: Crystal Windows Error Remix ( https://www.youtube.com/watch?v=B7B2wLtVyeg ), Moonlight ( https://www.yourclassical.org/story/2017/06/15/daily-download-ludwig-van-beethoven--piano-sonata-no-14-moonlight-i-adagio-sostenuto )
 
