@@ -7,6 +7,7 @@ public class Manager : MonoBehaviour
     public int frequency;
     public string state;
 	public Pin pin;
+	bool moveHomework;
 	float period;
 	float time;
 	Homework[] homeworks;
@@ -14,6 +15,7 @@ public class Manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+		moveHomework = true;
         period = 1f / (float)frequency;
 		time = 0;
     }
@@ -25,13 +27,18 @@ public class Manager : MonoBehaviour
 			time -= Time.deltaTime;
 			
 			if(time <= 0){
-				homeworks = GameObject.FindObjectsOfType<Homework>();
-				pin.Turn();
-                				
-				for(int a = 0; a < homeworks.Length; a++){
-					homeworks[a].Turn();
+				if(moveHomework){
+					homeworks = GameObject.FindObjectsOfType<Homework>();
+				    pin.Turn();
+                	
+				    for(int a = 0; a < homeworks.Length; a++){
+					    homeworks[a].Turn();
+				    }
+				}else{
+					
 				}
-								
+				
+                moveHomework = !moveHomework;				
 				time = period;
 			}
 	    }
