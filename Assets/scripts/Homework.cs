@@ -24,9 +24,19 @@ public class Homework : MonoBehaviour
 			transform.position = desks.transform.GetChild(deskIndex).transform.position;
 		}else{
 			transform.position = b.transform.position;
-			_manager.state = "failed";
+			_manager.state = "fail";
+		}
+		
+		if(GetDesk().GetHomework() == this){
+			GetDesk().SetHomework(null);
 		}
 		
 		deskIndex++;
+		GetDesk().SetHomework(this);
     }
+	
+	public Desk GetDesk()
+	{
+		return(desks.transform.GetChild(deskIndex).GetComponent<Desk>());
+	}
 }

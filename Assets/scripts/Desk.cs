@@ -4,15 +4,23 @@ using UnityEngine;
 
 public class Desk : MonoBehaviour
 {
+	public int x;
+	public int y;
+	Homework homework;
+	
     // Start is called before the first frame update
     void Start()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public Homework GetHomework()
+	{
+		return(homework);
+	}
+	
+	public void SetHomework(Homework input)
+	{
+		homework = input;
+	}
 }

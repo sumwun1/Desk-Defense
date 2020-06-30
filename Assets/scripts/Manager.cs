@@ -23,7 +23,7 @@ public class Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(state == "working"){
+        if(state == "work"){
 			time -= Time.deltaTime;
 			
 			if(time <= 0){
