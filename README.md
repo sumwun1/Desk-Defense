@@ -1,11 +1,11 @@
 # Pencil Defense
 Everything is due today. 
 
-This game is 100% action-free, RNG-free, treasure-free, dialog-free, win-condition-free, sidequest-free, and projectile-free. 
+This game is 100% action-free, RNG-free, treasure-free, dialog-free, win-condition-free, sidequest-free, permadeath-free, and projectile-free. 
 
-Software used: Unity, GitHub, Visual Studio, Notepad++, Paint, YTMP3, Audacity, Voice Recorder, Roblox
+Software used: Unity, GitHub, Visual Studio, Notepad++, Paint, Incompetech, YTMP3, Audacity, Voice Recorder, Roblox
 
-Soundtrack: Crystal Windows Error Remix ( https://www.youtube.com/watch?v=B7B2wLtVyeg ), Moonlight ( https://www.yourclassical.org/story/2017/06/15/daily-download-ludwig-van-beethoven--piano-sonata-no-14-moonlight-i-adagio-sostenuto )
+Soundtrack: Impending Boom, Moonlight ( https://www.yourclassical.org/story/2017/06/15/daily-download-ludwig-van-beethoven--piano-sonata-no-14-moonlight-i-adagio-sostenuto )
 
 This game is mostly inspired by the original Bloons Tower Defense. 
 
