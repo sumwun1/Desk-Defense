@@ -265,7 +265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   x: 3
-  y: 2
+  y: 1
 --- !u!65 &156311144
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -440,7 +440,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   x: 3
-  y: 0
+  y: 3
 --- !u!65 &195547114
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1037,7 +1037,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   x: 1
-  y: 1
+  y: 2
 --- !u!65 &791929945
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1143,7 +1143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   x: 3
-  y: 3
+  y: 0
 --- !u!65 &1041859842
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1232,7 +1232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   frequency: 1
-  state: working
+  state: work
   pin: {fileID: 12456965}
 --- !u!4 &1103203759
 Transform:
@@ -1295,7 +1295,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   x: 3
-  y: 1
+  y: 2
 --- !u!65 &1111105732
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1421,6 +1421,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6397982809670136800, guid: e3e24756e367b3a4297542f0c35519b6,
+        type: 3}
+      propertyPath: desk
+      value: 
+      objectReference: {fileID: 791929944}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e3e24756e367b3a4297542f0c35519b6, type: 3}
 --- !u!1 &1198064723
@@ -1576,7 +1581,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   x: 1
-  y: 0
+  y: 3
 --- !u!65 &1332060548
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1894,7 +1899,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   x: 1
-  y: 2
+  y: 1
 --- !u!65 &1672710300
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2271,7 +2276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   x: 1
-  y: 3
+  y: 0
 --- !u!65 &2106056214
 BoxCollider:
   m_ObjectHideFlags: 0

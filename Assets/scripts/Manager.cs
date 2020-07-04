@@ -29,15 +29,27 @@ public class Manager : MonoBehaviour
 			if(time <= 0){
 				if(moveHomework){
 					homeworks = GameObject.FindObjectsOfType<Homework>();
-                	
-				    for(int a = 0; a < homeworks.Length; a++){
+                    Temporary[] temporaries = GameObject.FindObjectsOfType<Temporary>();
+                    //Debug.Log(temporaries.Length);
+
+                    for (int a = 0; a < homeworks.Length; a++){
 					    homeworks[a].Turn();
 				    }
+
+                    for(int a = 0; a < temporaries.Length; a++)
+                    {
+                        Destroy(temporaries[a].gameObject);
+                    }
 					
 					pin.Turn();
 				}else{
-					
-				}
+                    Pencil[] pencils = GameObject.FindObjectsOfType<Pencil>();
+
+                    for (int a = 0; a < pencils.Length; a++)
+                    {
+                        pencils[a].Turn();
+                    }
+                }
 				
                 moveHomework = !moveHomework;				
 				time = period;

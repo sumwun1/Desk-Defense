@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Homework : MonoBehaviour
 {
+    public GameObject damageObject;
 	int deskIndex;
+    int health;
     GameObject desks;
 	GameObject b;
 	Manager _manager;
@@ -12,31 +14,53 @@ public class Homework : MonoBehaviour
 	// Start is called before the first frame update
     void Start()
     {
-		deskIndex = 0;
+		deskIndex = -1;
+        health = 2;
         desks = GameObject.Find("desks");
 		b = GameObject.Find("b");
 		_manager = GameObject.Find("_manager").GetComponent<Manager>();
     }
 
+    public void TakeDamage(int damage, int type)
+    {
+        Instantiate(damageObject, transform.position, transform.rotation);
+        health -= damage;
+
+        if(health <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     public void Turn()
     {
-        if(deskIndex < 16){
+        if(deskIndex >= 0)
+        {
+            if (GetDesk().GetHomework() == this)
+            {
+                GetDesk().SetHomework(null);
+            }
+        }
+
+        deskIndex++;
+
+        if (deskIndex < 16){
 			transform.position = desks.transform.GetChild(deskIndex).transform.position;
-		}else{
+            GetDesk().SetHomework(this);
+        }
+        else{
 			transform.position = b.transform.position;
 			_manager.state = "fail";
 		}
-		
-		if(GetDesk().GetHomework() == this){
-			GetDesk().SetHomework(null);
-		}
-		
-		deskIndex++;
-		GetDesk().SetHomework(this);
     }
 	
 	public Desk GetDesk()
 	{
+        if(deskIndex < 0)
+        {
+            return (null);
+        }
+
 		return(desks.transform.GetChild(deskIndex).GetComponent<Desk>());
 	}
 }

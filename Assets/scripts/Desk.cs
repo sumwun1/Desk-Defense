@@ -6,6 +6,7 @@ public class Desk : MonoBehaviour
 {
 	public int x;
 	public int y;
+	int index;
 	Homework homework;
 	
     // Start is called before the first frame update
@@ -13,6 +14,14 @@ public class Desk : MonoBehaviour
     {
         
     }
+	
+	public int GetIndex(){
+		return(index);
+	}
+	
+	public void SetIndex(int input){
+		index = input;
+	}
 
     public Homework GetHomework()
 	{
