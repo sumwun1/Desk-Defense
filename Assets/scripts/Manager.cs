@@ -28,9 +28,9 @@ public class Manager : MonoBehaviour
     void Update()
     {
         if(state == "work"){
-			time -= Time.deltaTime;
-			
-			if(time <= 0){
+            time -= Time.deltaTime;
+
+            if (time <= 0){
 				if(moveHomework){
 					homeworks = GameObject.FindObjectsOfType<Homework>();
                     Temporary[] temporaries = GameObject.FindObjectsOfType<Temporary>();
@@ -50,6 +50,14 @@ public class Manager : MonoBehaviour
                         pin.Turn();
                         willSpawn--;
                     }
+
+                    if (homeworks.Length < 1 && willSpawn < 1)
+                    {
+                        round++;
+                        roundText.text = round + " rounds";
+                        workButton.gameObject.SetActive(true);
+                        state = "build";
+                    }
                 }
                 else{
                     bool stupidVariable = true;
@@ -58,11 +66,6 @@ public class Manager : MonoBehaviour
                     for (int a = 0; a < pencils.Length; a++)
                     {
                         stupidVariable = pencils[a].Turn();
-                    }
-
-                    if (GameObject.FindObjectsOfType<Homework>().Length < 1 && willSpawn < 1)
-                    {
-                        EndRound();
                     }
                 }
 				
@@ -94,13 +97,5 @@ public class Manager : MonoBehaviour
 
         willSpawn = spawning;
         state = "work";
-    }
-
-    public void EndRound()
-    {
-        round++;
-        roundText.text = round + " rounds";
-        workButton.gameObject.SetActive(true);
-        state = "build";
     }
 }
