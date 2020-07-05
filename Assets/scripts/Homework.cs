@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Homework : MonoBehaviour
 {
@@ -15,10 +16,10 @@ public class Homework : MonoBehaviour
     void Start()
     {
 		deskIndex = -1;
-        health = 2;
         desks = GameObject.Find("desks");
 		b = GameObject.Find("b");
 		_manager = GameObject.Find("_manager").GetComponent<Manager>();
+        health = (int)Math.Ceiling((float)_manager.round / _manager.GetSpawning());
     }
 
     public void TakeDamage(int damage, int type)

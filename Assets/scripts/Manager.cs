@@ -12,6 +12,8 @@ public class Manager : MonoBehaviour
     public Button workButton;
 	public Pin pin;
 	bool moveHomework;
+    int spawning;
+    int willSpawn;
 	float period;
 	float time;
 	Homework[] homeworks;
@@ -42,14 +44,25 @@ public class Manager : MonoBehaviour
                     {
                         Destroy(temporaries[a].gameObject);
                     }
-					
-					pin.Turn();
-				}else{
+
+                    if (willSpawn > 0)
+                    {
+                        pin.Turn();
+                        willSpawn--;
+                    }
+                }
+                else{
+                    bool stupidVariable = true;
                     Pencil[] pencils = GameObject.FindObjectsOfType<Pencil>();
 
                     for (int a = 0; a < pencils.Length; a++)
                     {
-                        pencils[a].Turn();
+                        stupidVariable = pencils[a].Turn();
+                    }
+
+                    if (GameObject.FindObjectsOfType<Homework>().Length < 1 && willSpawn < 1)
+                    {
+                        EndRound();
                     }
                 }
 				
@@ -59,12 +72,27 @@ public class Manager : MonoBehaviour
 	    }
     }
 
+    public int GetSpawning()
+    {
+        return (spawning);
+    }
+
     public void StartWork()
     {
         workButton.gameObject.SetActive(false);
         moveHomework = true;
         period = 1f / (float)tps;
         time = 0;
+        spawning = 0;
+        float factor = (float)round;
+
+        while(factor > 1f)
+        {
+            spawning++;
+            factor /= 2;
+        }
+
+        willSpawn = spawning;
         state = "work";
     }
 
@@ -73,5 +101,6 @@ public class Manager : MonoBehaviour
         round++;
         roundText.text = round + " rounds";
         workButton.gameObject.SetActive(true);
+        state = "build";
     }
 }

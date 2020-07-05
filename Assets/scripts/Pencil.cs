@@ -6,12 +6,14 @@ public class Pencil : MonoBehaviour
 {
     public Desk desk;
     bool started;
+    Manager _manager;
 	Desk[] desks;
 	
 	// Start is called before the first frame update
     void Start()
     {
         started = false;
+        _manager = GameObject.Find("_manager").GetComponent<Manager>();
     }
 
     void Update()
@@ -50,7 +52,7 @@ public class Pencil : MonoBehaviour
         }
     }
 
-    public void Turn()
+    public bool Turn()
     {
         for(int a = 0; a < 5; a++)
         {
@@ -63,6 +65,12 @@ public class Pencil : MonoBehaviour
                 }
             }
         }
+
+        /*if (GameObject.FindObjectsOfType<Homework>().Length < 1 && _manager.GetHomeworkCount() < 1)
+        {
+            _manager.EndRound();
+        }*/
+        return (true);
     }
 	
 	public void Swap(int a, int b){
