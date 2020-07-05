@@ -1,11 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Manager : MonoBehaviour
 {
-    public int frequency;
+    public int tps;
+    public int round;
     public string state;
+    public Text roundText;
+    public Button workButton;
 	public Pin pin;
 	bool moveHomework;
 	float period;
@@ -15,9 +19,7 @@ public class Manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-		moveHomework = true;
-        period = 1f / (float)frequency;
-		time = 0;
+		
     }
 
     // Update is called once per frame
@@ -55,5 +57,21 @@ public class Manager : MonoBehaviour
 				time = period;
 			}
 	    }
+    }
+
+    public void StartWork()
+    {
+        workButton.gameObject.SetActive(false);
+        moveHomework = true;
+        period = 1f / (float)tps;
+        time = 0;
+        state = "work";
+    }
+
+    public void EndRound()
+    {
+        round++;
+        roundText.text = round + " rounds";
+        workButton.gameObject.SetActive(true);
     }
 }

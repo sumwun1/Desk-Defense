@@ -5,7 +5,8 @@ using UnityEngine;
 public class Desks : MonoBehaviour
 {
     bool started;
-	Desk[,] deskArray;
+	public Desk[,] deskArray;
+    //public Desk[] test;
 	
     // Start is called before the first frame update
     void Start()
