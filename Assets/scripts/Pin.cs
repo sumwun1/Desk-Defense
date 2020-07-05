@@ -12,8 +12,9 @@ public class Pin : MonoBehaviour
         
     }
 
-    public void Turn()
+    public bool Turn()
     {
         Instantiate(homeworkPrefabs[0], transform.position, transform.rotation);
+        return (true);
     }
 }

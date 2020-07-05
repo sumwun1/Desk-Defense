@@ -47,8 +47,9 @@ public class Manager : MonoBehaviour
 
                     if (willSpawn > 0)
                     {
-                        pin.Turn();
+                        bool stupidVariable = pin.Turn();
                         willSpawn--;
+                        homeworks = GameObject.FindObjectsOfType<Homework>();
                     }
 
                     if (homeworks.Length < 1 && willSpawn < 1)
@@ -60,12 +61,11 @@ public class Manager : MonoBehaviour
                     }
                 }
                 else{
-                    bool stupidVariable = true;
                     Pencil[] pencils = GameObject.FindObjectsOfType<Pencil>();
 
                     for (int a = 0; a < pencils.Length; a++)
                     {
-                        stupidVariable = pencils[a].Turn();
+                        bool stupidVariable = pencils[a].Turn();
                     }
                 }
 				
