@@ -1,4 +1,4 @@
-# Pencil Defense
+# Desk Defense
 Everything is due today. 
 
 This game is 100% action-free, RNG-free, treasure-free, dialog-free, win-condition-free, sidequest-free, permadeath-free, and projectile-free. 
