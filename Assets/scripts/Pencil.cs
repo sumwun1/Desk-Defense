@@ -52,6 +52,12 @@ public class Pencil : MonoBehaviour
         }
     }
 
+    private void OnMouseUp()
+    {
+        _manager.UpdateA(2);
+        Destroy(gameObject);
+    }
+
     public bool Turn()
     {
         for(int a = 0; a < 5; a++)
