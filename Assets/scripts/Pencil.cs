@@ -54,8 +54,11 @@ public class Pencil : MonoBehaviour
 
     private void OnMouseUp()
     {
-        _manager.UpdateA(2);
-        Destroy(gameObject);
+        if(_manager.state == "select")
+        {
+            _manager.UpdateA(2);
+            Destroy(gameObject);
+        }
     }
 
     public bool Turn()

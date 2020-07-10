@@ -10,17 +10,21 @@ public class Manager : MonoBehaviour
     public string state;
     public GameObject workButton;
     public GameObject helpButton;
+    public GameObject cancelButton;
     public GameObject centerPanel;
     public Text aText;
     public Text roundText;
     public Text centerText;
 	public Pin pin;
+    public GameObject[] supplies;
+    public GameObject[] supplyButtons;
 	bool moveHomework;
     int a;
     int spawning;
     int willSpawn;
 	float period;
 	float time;
+    GameObject selectedSupply;
 	Homework[] homeworks;
 
     // Start is called before the first frame update
@@ -62,8 +66,14 @@ public class Manager : MonoBehaviour
                         round++;
                         roundText.text = round + " assignments";
                         UpdateA(1);
-                        workButton.gameObject.SetActive(true);
+                        workButton.SetActive(true);
+                        helpButton.SetActive(true);
                         state = "select";
+
+                        for (int a = 0; a < 1; a++)
+                        {
+                            supplyButtons[a].SetActive(true);
+                        }
                     }
                 }
                 else{
@@ -79,6 +89,28 @@ public class Manager : MonoBehaviour
 				time = period;
 			}
 	    }
+    }
+
+    public void SelectSupply(int id)
+    {
+        if(state == "help")
+        {
+            centerText.text = "Pencils do nearby homework. They're stronger against geometry homework.";
+        }
+        else if(state == "select")
+        {
+            if(a >= 2)
+            {
+                //change sprite of selected supply
+                selectedSupply = supplies[id];
+            }
+            else
+            {
+                centerText.text = "Your grades are too low!";
+                centerPanel.SetActive(true);
+                state = "help";
+            }
+        }
     }
 
     public void StartWork()
@@ -97,6 +129,11 @@ public class Manager : MonoBehaviour
             spawning = 0;
             float factor = (float)round;
 
+            for(int a = 0; a < 1; a++)
+            {
+                supplyButtons[a].SetActive(false);
+            }
+
             while (factor > 1f)
             {
                 spawning++;
@@ -108,6 +145,34 @@ public class Manager : MonoBehaviour
         }
     }
 
+    public void TogglePlace()
+    {
+        if(state == "place")
+        {
+            workButton.SetActive(true);
+            helpButton.SetActive(true);
+            cancelButton.SetActive(false);
+            state = "select";
+
+            for (int a = 0; a < 1; a++)
+            {
+                supplyButtons[a].SetActive(true);
+            }
+        }
+        else if(state == "select")
+        {
+            workButton.SetActive(false);
+            helpButton.SetActive(false);
+            cancelButton.SetActive(true);
+            state = "place";
+
+            for (int a = 0; a < 1; a++)
+            {
+                supplyButtons[a].SetActive(false);
+            }
+        }
+    }
+
     public void ToggleHelp()
     {
         if(state == "help")
@@ -115,7 +180,7 @@ public class Manager : MonoBehaviour
             centerPanel.SetActive(false);
             state = "select";
         }
-        else
+        else if(state == "select")
         {
             centerText.text = "To buy supplies, click the supply's button and click a desk. Each supply costs 2 A's." + 
                 "\n\nClick an already - bought supply to sell it." +
