@@ -7,10 +7,10 @@ public class Manager : MonoBehaviour
 {
     public int tps;
     public int round;
-    public string state;
     public GameObject workButton;
     public GameObject helpButton;
     public GameObject cancelButton;
+    public GameObject retakeButton;
     public GameObject centerPanel;
     public Text aText;
     public Text roundText;
@@ -20,17 +20,27 @@ public class Manager : MonoBehaviour
     public GameObject[] supplyButtons;
 	bool moveHomework;
     int a;
+    int unlocked;
     int spawning;
     int willSpawn;
 	float period;
 	float time;
+    string state;
     GameObject selectedSupply;
+    string[] descriptions;
 	Homework[] homeworks;
 
     // Start is called before the first frame update
     void Start()
     {
         UpdateA(1);
+        unlocked = 0;
+        state = "select";
+        descriptions = new string[4];
+        descriptions[0] = "Pencils do nearby homework. They're stronger against geometry homework.";
+        descriptions[1] = "Erasers do all homework depending on distance. They're stronger against history homework.";
+        descriptions[2] = "Bottles do all homework and then refill. They're stronger against chemistry homework.";
+        descriptions[3] = "Folders postpone all homework. Only group projects get done when postponed.";
     }
 
     // Update is called once per frame
@@ -42,17 +52,12 @@ public class Manager : MonoBehaviour
             if (time <= 0){
 				if(moveHomework){
 					homeworks = GameObject.FindObjectsOfType<Homework>();
-                    Temporary[] temporaries = GameObject.FindObjectsOfType<Temporary>();
-                    //Debug.Log(temporaries.Length);
+                    /*Temporary[] temporaries = GameObject.FindObjectsOfType<Temporary>();
+                    //Debug.Log(temporaries.Length);*/
 
                     for (int a = 0; a < homeworks.Length; a++){
 					    homeworks[a].Turn();
 				    }
-
-                    for(int a = 0; a < temporaries.Length; a++)
-                    {
-                        Destroy(temporaries[a].gameObject);
-                    }
 
                     if (willSpawn > 0)
                     {
@@ -60,6 +65,16 @@ public class Manager : MonoBehaviour
                         willSpawn--;
                         homeworks = GameObject.FindObjectsOfType<Homework>();
                     }
+                }
+                else{
+                    Pencil[] pencils = GameObject.FindObjectsOfType<Pencil>();
+
+                    for (int a = 0; a < pencils.Length; a++)
+                    {
+                        bool stupidVariable = pencils[a].Turn();
+                    }
+
+                    homeworks = GameObject.FindObjectsOfType<Homework>();
 
                     if (homeworks.Length < 1 && willSpawn < 1)
                     {
@@ -70,18 +85,15 @@ public class Manager : MonoBehaviour
                         helpButton.SetActive(true);
                         state = "select";
 
-                        for (int a = 0; a < 1; a++)
+                        if (round == 2)
+                        {
+                            unlocked++;
+                        }
+
+                        for (int a = 0; a < unlocked; a++)
                         {
                             supplyButtons[a].SetActive(true);
                         }
-                    }
-                }
-                else{
-                    Pencil[] pencils = GameObject.FindObjectsOfType<Pencil>();
-
-                    for (int a = 0; a < pencils.Length; a++)
-                    {
-                        bool stupidVariable = pencils[a].Turn();
                     }
                 }
 				
@@ -95,7 +107,7 @@ public class Manager : MonoBehaviour
     {
         if(state == "help")
         {
-            centerText.text = "Pencils do nearby homework. They're stronger against geometry homework.";
+            centerText.text = descriptions[id];
         }
         else if(state == "select")
         {
@@ -103,6 +115,7 @@ public class Manager : MonoBehaviour
             {
                 //change sprite of selected supply
                 selectedSupply = supplies[id];
+                TogglePlace();
             }
             else
             {
@@ -129,7 +142,7 @@ public class Manager : MonoBehaviour
             spawning = 0;
             float factor = (float)round;
 
-            for(int a = 0; a < 1; a++)
+            for(int a = 0; a < unlocked; a++)
             {
                 supplyButtons[a].SetActive(false);
             }
@@ -154,7 +167,7 @@ public class Manager : MonoBehaviour
             cancelButton.SetActive(false);
             state = "select";
 
-            for (int a = 0; a < 1; a++)
+            for (int a = 0; a < unlocked; a++)
             {
                 supplyButtons[a].SetActive(true);
             }
@@ -166,7 +179,7 @@ public class Manager : MonoBehaviour
             cancelButton.SetActive(true);
             state = "place";
 
-            for (int a = 0; a < 1; a++)
+            for (int a = 0; a < unlocked; a++)
             {
                 supplyButtons[a].SetActive(false);
             }
@@ -191,10 +204,49 @@ public class Manager : MonoBehaviour
         }
     }
 
+    public void Fail()
+    {
+        centerText.text = "You failed.";
+        retakeButton.SetActive(true);
+        centerPanel.SetActive(true);
+        state = "fail";
+    }
+
+    public void Retake()
+    {
+        workButton.SetActive(true);
+        helpButton.SetActive(true);
+        centerPanel.SetActive(false);
+        retakeButton.SetActive(false);
+        homeworks = GameObject.FindObjectsOfType<Homework>();
+
+        for(int a = 0; a < homeworks.Length; a++)
+        {
+            Destroy(homeworks[a].gameObject);
+        }
+
+        for (int a = 0; a < unlocked; a++)
+        {
+            supplyButtons[a].SetActive(true);
+        }
+
+        state = "select";
+    }
+
     public void UpdateA(int addition)
     {
         a += addition;
         aText.text = a + " A's";
+    }
+
+    public GameObject GetSupply()
+    {
+        return (selectedSupply);
+    }
+
+    public string GetState()
+    {
+        return (state);
     }
 
     public int GetSpawning()

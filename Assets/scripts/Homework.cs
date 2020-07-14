@@ -51,7 +51,7 @@ public class Homework : MonoBehaviour
         }
         else{
 			transform.position = b.transform.position;
-			_manager.state = "fail";
+			_manager.Fail();
 		}
     }
 	

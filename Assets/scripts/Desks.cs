@@ -4,24 +4,24 @@ using UnityEngine;
 
 public class Desks : MonoBehaviour
 {
-    bool started;
-	public Desk[,] deskArray;
-    //public Desk[] test;
+    public Desk[,] deskArray;
+    /*bool started;
+    //public Desk[] test;*/
 	
     // Start is called before the first frame update
     void Start()
     {
-        started = false;
+        //started = false;
 		deskArray = new Desk[4, 4];
 		
         for(int a = 0; a < 16; a++){
 			Desk desk = transform.GetChild(a).GetComponent<Desk>();
-			desk.SetIndex(a);
-            //Debug.Log(desk.GetIndex());
+			/*desk.SetIndex(a);
+            //Debug.Log(desk.GetIndex());*/
 			deskArray[desk.x, desk.y] = desk;
 		}
 
-        started = true;
+        //started = true;
     }
 
     // Update is called once per frame
@@ -55,8 +55,8 @@ public class Desks : MonoBehaviour
 		return(output);
 	}
 
-    public bool GetStarted()
+    /*public bool GetStarted()
     {
         return (started);
-    }
+    }*/
 }
