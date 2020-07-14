@@ -9,7 +9,7 @@ public class Temporary : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        life = 1f / 32f;
+        life = 0.5f / GameObject.Find("_manager").GetComponent<Manager>().tps;
     }
 
     // Update is called once per frame

@@ -35,7 +35,7 @@ public class Manager : MonoBehaviour
     {
         UpdateA(1);
         unlocked = 0;
-        state = "select";
+        Select();
         descriptions = new string[4];
         descriptions[0] = "Pencils do nearby homework. They're stronger against geometry homework.";
         descriptions[1] = "Erasers do all homework depending on distance. They're stronger against history homework.";
@@ -81,19 +81,13 @@ public class Manager : MonoBehaviour
                         round++;
                         roundText.text = round + " assignments";
                         UpdateA(1);
-                        workButton.SetActive(true);
-                        helpButton.SetActive(true);
-                        state = "select";
 
                         if (round == 2)
                         {
                             unlocked++;
                         }
 
-                        for (int a = 0; a < unlocked; a++)
-                        {
-                            supplyButtons[a].SetActive(true);
-                        }
+                        Select();
                     }
                 }
 				
@@ -101,29 +95,6 @@ public class Manager : MonoBehaviour
 				time = period;
 			}
 	    }
-    }
-
-    public void SelectSupply(int id)
-    {
-        if(state == "help")
-        {
-            centerText.text = descriptions[id];
-        }
-        else if(state == "select")
-        {
-            if(a >= 2)
-            {
-                //change sprite of selected supply
-                selectedSupply = supplies[id];
-                TogglePlace();
-            }
-            else
-            {
-                centerText.text = "Your grades are too low!";
-                centerPanel.SetActive(true);
-                state = "help";
-            }
-        }
     }
 
     public void StartWork()
@@ -158,19 +129,55 @@ public class Manager : MonoBehaviour
         }
     }
 
+    public void SelectSupply(int id)
+    {
+        if (state == "help")
+        {
+            centerText.text = descriptions[id];
+        }
+        else if (state == "select")
+        {
+            if (a >= 2)
+            {
+                //change sprite of selected supply
+                selectedSupply = supplies[id];
+                TogglePlace();
+            }
+            else
+            {
+                centerText.text = "Your grades are too low!";
+                centerPanel.SetActive(true);
+                state = "help";
+            }
+        }
+    }
+
+    public void Select()
+    {
+        workButton.SetActive(true);
+        helpButton.SetActive(true);
+        centerPanel.SetActive(false);
+        retakeButton.SetActive(false);
+        cancelButton.SetActive(false);
+        state = "select";
+        homeworks = GameObject.FindObjectsOfType<Homework>();
+
+        for (int a = 0; a < homeworks.Length; a++)
+        {
+            Destroy(homeworks[a].gameObject);
+        }
+
+        for (int a = 0; a < unlocked; a++)
+        {
+            supplyButtons[a].SetActive(true);
+        }
+    }
+
     public void TogglePlace()
     {
         if(state == "place")
         {
-            workButton.SetActive(true);
-            helpButton.SetActive(true);
-            cancelButton.SetActive(false);
-            state = "select";
-
-            for (int a = 0; a < unlocked; a++)
-            {
-                supplyButtons[a].SetActive(true);
-            }
+            Select();
         }
         else if(state == "select")
         {
@@ -190,8 +197,7 @@ public class Manager : MonoBehaviour
     {
         if(state == "help")
         {
-            centerPanel.SetActive(false);
-            state = "select";
+            Select();
         }
         else if(state == "select")
         {
@@ -210,27 +216,6 @@ public class Manager : MonoBehaviour
         retakeButton.SetActive(true);
         centerPanel.SetActive(true);
         state = "fail";
-    }
-
-    public void Retake()
-    {
-        workButton.SetActive(true);
-        helpButton.SetActive(true);
-        centerPanel.SetActive(false);
-        retakeButton.SetActive(false);
-        homeworks = GameObject.FindObjectsOfType<Homework>();
-
-        for(int a = 0; a < homeworks.Length; a++)
-        {
-            Destroy(homeworks[a].gameObject);
-        }
-
-        for (int a = 0; a < unlocked; a++)
-        {
-            supplyButtons[a].SetActive(true);
-        }
-
-        state = "select";
     }
 
     public void UpdateA(int addition)
