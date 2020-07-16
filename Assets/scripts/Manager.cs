@@ -11,6 +11,7 @@ public class Manager : MonoBehaviour
     public GameObject helpButton;
     public GameObject slowButton;
     public GameObject fastButton;
+    public GameObject pauseButton;
     public GameObject cancelButton;
     public GameObject retakeButton;
     public GameObject centerPanel;
@@ -38,12 +39,12 @@ public class Manager : MonoBehaviour
     {
         UpdateA(1);
         unlocked = 0;
-        Select();
         descriptions = new string[4];
         descriptions[0] = "Pencils do nearby homework. They're stronger against geometry homework.";
         descriptions[1] = "Erasers do all homework depending on distance. They're stronger against history homework.";
         descriptions[2] = "Bottles do all homework and then refill. They're stronger against chemistry homework.";
         descriptions[3] = "Folders postpone all homework. Only group projects get done when postponed.";
+        Select();
     }
 
     // Update is called once per frame
@@ -112,6 +113,7 @@ public class Manager : MonoBehaviour
             helpButton.SetActive(false);
             fastButton.SetActive(false);
             slowButton.SetActive(false);
+            pauseButton.SetActive(true);
             moveHomework = true;
             period = 1f / (float)tps;
             time = 0;
@@ -162,6 +164,7 @@ public class Manager : MonoBehaviour
         workButton.SetActive(true);
         helpButton.SetActive(true);
         centerPanel.SetActive(false);
+        pauseButton.SetActive(false);
         retakeButton.SetActive(false);
         cancelButton.SetActive(false);
         fastButton.SetActive(tps < 32);
@@ -190,6 +193,8 @@ public class Manager : MonoBehaviour
         {
             workButton.SetActive(false);
             helpButton.SetActive(false);
+            fastButton.SetActive(false);
+            slowButton.SetActive(false);
             cancelButton.SetActive(true);
             state = "place";
 
@@ -209,8 +214,7 @@ public class Manager : MonoBehaviour
         else if(state == "select")
         {
             centerText.text = "To buy supplies, click the supply's button and click a desk. Each supply costs 2 A's." + 
-                "\n\nClick an already - bought supply to sell it." +
-                "\n\nPress alt + tab if you want to quit." +
+                "\n\nClick an already-bought supply to sell it." +
                 "\n\nTry clicking some other buttons.";
             centerPanel.SetActive(true);
             state = "help";
@@ -247,10 +251,29 @@ public class Manager : MonoBehaviour
         }
     }
 
+    public void Pause()
+    {
+        if(state == "work")
+        {
+            fastButton.SetActive(tps < 32);
+            slowButton.SetActive(tps > 1);
+            state = "pause";
+        }
+        else if(state == "pause")
+        {
+            fastButton.SetActive(false);
+            slowButton.SetActive(false);
+            period = 1f / (float)tps;
+            time = 0;
+            state = "work";
+        }
+    }
+
     public void Fail()
     {
         centerText.text = "You failed.";
         retakeButton.SetActive(true);
+        pauseButton.SetActive(false);
         centerPanel.SetActive(true);
         state = "fail";
     }
