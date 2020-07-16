@@ -9,10 +9,13 @@ public class Manager : MonoBehaviour
     public int round;
     public GameObject workButton;
     public GameObject helpButton;
+    public GameObject slowButton;
+    public GameObject fastButton;
     public GameObject cancelButton;
     public GameObject retakeButton;
     public GameObject centerPanel;
     public Text aText;
+    public Text tpsText;
     public Text roundText;
     public Text centerText;
 	public Pin pin;
@@ -101,12 +104,14 @@ public class Manager : MonoBehaviour
     {
         if(state == "help")
         {
-            centerText.text = "This button starts working on the next assignment.";
+            centerText.text = "This button starts the homework.";
         }
         else if(state == "select")
         {
             workButton.SetActive(false);
             helpButton.SetActive(false);
+            fastButton.SetActive(false);
+            slowButton.SetActive(false);
             moveHomework = true;
             period = 1f / (float)tps;
             time = 0;
@@ -159,6 +164,8 @@ public class Manager : MonoBehaviour
         centerPanel.SetActive(false);
         retakeButton.SetActive(false);
         cancelButton.SetActive(false);
+        fastButton.SetActive(tps < 32);
+        slowButton.SetActive(tps > 1);
         state = "select";
         homeworks = GameObject.FindObjectsOfType<Homework>();
 
@@ -207,6 +214,36 @@ public class Manager : MonoBehaviour
                 "\n\nTry clicking some other buttons.";
             centerPanel.SetActive(true);
             state = "help";
+        }
+    }
+
+    public void ChangeTps(bool faster)
+    {
+        if(state == "select" || state == "pause")
+        {
+            if (faster)
+            {
+                tps *= 2;
+            }
+            else
+            {
+                tps /= 2;
+            }
+
+            fastButton.SetActive(tps < 32);
+            slowButton.SetActive(tps > 1);
+            tpsText.text = tps + " turns/s";
+        }
+        else if(state == "help")
+        {
+            if (faster)
+            {
+                centerText.text = "This button doubles turns/s.";
+            }
+            else
+            {
+                centerText.text = "This button halves turns/s.";
+            }
         }
     }
 
