@@ -1023,7 +1023,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &528696245
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1736,7 +1736,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 1 turns/s
+  m_Text: 8 turns/s
 --- !u!222 &666909096
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2701,8 +2701,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b283e3859e4c1f49bc7b27a84350ad9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tps: 1
-  round: 1
+  tps: 8
+  current: 1
+  record: 1
   workButton: {fileID: 1701373781}
   helpButton: {fileID: 578807900}
   slowButton: {fileID: 528696244}
@@ -2715,6 +2716,7 @@ MonoBehaviour:
   tpsText: {fileID: 666909095}
   roundText: {fileID: 1788399002}
   centerText: {fileID: 1084421761}
+  retakeText: {fileID: 1668804647}
   pin: {fileID: 12456965}
   supplies:
   - {fileID: 1009659268230394772, guid: e3e24756e367b3a4297542f0c35519b6, type: 3}
@@ -4168,7 +4170,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 1 assignments
+  m_Text: 'Current: 1
+
+    Record: 1'
 --- !u!222 &1788399003
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -19,7 +19,7 @@ public class Homework : MonoBehaviour
         desks = GameObject.Find("desks");
 		b = GameObject.Find("b");
 		_manager = GameObject.Find("_manager").GetComponent<Manager>();
-        health = (int)Math.Ceiling((float)_manager.round / _manager.GetSpawning());
+        health = (int)Math.Ceiling(2f * (float)_manager.current / _manager.GetSpawning());
     }
 
     public void TakeDamage(int damage, int type)

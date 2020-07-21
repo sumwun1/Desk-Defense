@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class Manager : MonoBehaviour
 {
     public int tps;
-    public int round;
+    public int current;
+    public int record;
     public GameObject workButton;
     public GameObject helpButton;
     public GameObject slowButton;
@@ -19,6 +20,7 @@ public class Manager : MonoBehaviour
     public Text tpsText;
     public Text roundText;
     public Text centerText;
+    public Text retakeText;
 	public Pin pin;
     public GameObject[] supplies;
     public GameObject[] supplyButtons;
@@ -82,16 +84,29 @@ public class Manager : MonoBehaviour
 
                     if (homeworks.Length < 1 && willSpawn < 1)
                     {
-                        round++;
-                        roundText.text = round + " assignments";
-                        UpdateA(1);
+                        current++;
 
-                        if (round == 2)
+                        if(current > record)
                         {
-                            unlocked++;
+                            UpdateA(current - record);
+                            record = current;
+                            roundText.text = "Current: " + current + "\nRecord: " + record;
+
+                            if (record == 2)
+                            {
+                                //Debug.Log("activating " + unlocked);
+                                unlocked++;
+                                centerText.text = "Unlocked new supply!";
+                                retakeText.text = "okay";
+                                retakeButton.SetActive(true);
+                                pauseButton.SetActive(false);
+                                centerPanel.SetActive(true);
+                                state = "fail";
+                            }
                         }
 
-                        Select();
+                        roundText.text = "Current: " + current + "\nRecord: " + record;
+                        NextRound();
                     }
                 }
 				
@@ -99,6 +114,23 @@ public class Manager : MonoBehaviour
 				time = period;
 			}
 	    }
+    }
+
+    public void NextRound()
+    {
+        moveHomework = true;
+        period = 1f / (float)tps;
+        time = 0;
+        spawning = 0;
+        float factor = (float)current;
+
+        while (factor > 1f)
+        {
+            spawning++;
+            factor /= 2;
+        }
+
+        willSpawn = spawning;
     }
 
     public void StartWork()
@@ -114,25 +146,15 @@ public class Manager : MonoBehaviour
             fastButton.SetActive(false);
             slowButton.SetActive(false);
             pauseButton.SetActive(true);
-            moveHomework = true;
-            period = 1f / (float)tps;
-            time = 0;
-            spawning = 0;
-            float factor = (float)round;
 
-            for(int a = 0; a < unlocked; a++)
+            for (int a = 0; a < unlocked; a++)
             {
                 supplyButtons[a].SetActive(false);
             }
 
-            while (factor > 1f)
-            {
-                spawning++;
-                factor /= 2;
-            }
-
-            willSpawn = spawning;
+            current = 1;
             state = "work";
+            NextRound();
         }
     }
 
@@ -179,6 +201,7 @@ public class Manager : MonoBehaviour
 
         for (int a = 0; a < unlocked; a++)
         {
+            //Debug.Log("activating " + unlocked);
             supplyButtons[a].SetActive(true);
         }
     }
@@ -272,6 +295,7 @@ public class Manager : MonoBehaviour
     public void Fail()
     {
         centerText.text = "You failed.";
+        retakeText.text = "retake";
         retakeButton.SetActive(true);
         pauseButton.SetActive(false);
         centerPanel.SetActive(true);
