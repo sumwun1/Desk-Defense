@@ -104,5 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7f3723a5ef18ab41adc927a9cc07adc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageObject: {fileID: 498498395901677233, guid: 4423018f12dd17743879cd3e07bf210b,
+  damageColor: {fileID: 498498395901677233, guid: 4423018f12dd17743879cd3e07bf210b,
+    type: 3}
+  damageAudio: {fileID: 2490951019685093438, guid: 769878beb109c584d97e5cbbfee6a255,
     type: 3}

@@ -16,11 +16,14 @@ public class Manager : MonoBehaviour
     public GameObject cancelButton;
     public GameObject retakeButton;
     public GameObject centerPanel;
+    public GameObject unlockText;
+    public GameObject retakeText;
     public Text aText;
     public Text tpsText;
     public Text roundText;
     public Text centerText;
-    public Text retakeText;
+    public AudioSource unlockAudio;
+    public AudioSource failAudio;
 	public Pin pin;
     public GameObject[] supplies;
     public GameObject[] supplyButtons;
@@ -90,22 +93,23 @@ public class Manager : MonoBehaviour
                         {
                             UpdateA(current - record);
                             record = current;
-                            roundText.text = "Current: " + current + "\nRecord: " + record;
+                            roundText.text = "Current: " + current + ", Record: " + record;
 
                             if (record == 2)
                             {
                                 //Debug.Log("activating " + unlocked);
                                 unlocked++;
                                 centerText.text = "Unlocked new supply!";
-                                retakeText.text = "okay";
+                                unlockText.SetActive(true);
                                 retakeButton.SetActive(true);
                                 pauseButton.SetActive(false);
                                 centerPanel.SetActive(true);
+                                unlockAudio.Play();
                                 state = "fail";
                             }
                         }
 
-                        roundText.text = "Current: " + current + "\nRecord: " + record;
+                        roundText.text = "Current: " + current + ", Record: " + record;
                         NextRound();
                     }
                 }
@@ -189,6 +193,9 @@ public class Manager : MonoBehaviour
         pauseButton.SetActive(false);
         retakeButton.SetActive(false);
         cancelButton.SetActive(false);
+        unlockText.SetActive(false);
+        retakeText.SetActive(false);
+        failAudio.Stop();
         fastButton.SetActive(tps < 32);
         slowButton.SetActive(tps > 1);
         state = "select";
@@ -295,10 +302,11 @@ public class Manager : MonoBehaviour
     public void Fail()
     {
         centerText.text = "You failed.";
-        retakeText.text = "retake";
+        retakeText.SetActive(true);
         retakeButton.SetActive(true);
         pauseButton.SetActive(false);
         centerPanel.SetActive(true);
+        failAudio.Play();
         state = "fail";
     }
 

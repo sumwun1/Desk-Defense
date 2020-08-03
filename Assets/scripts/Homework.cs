@@ -5,7 +5,8 @@ using System;
 
 public class Homework : MonoBehaviour
 {
-    public GameObject damageObject;
+    public GameObject damageColor;
+    public GameObject damageAudio;
 	int deskIndex;
     int health;
     GameObject desks;
@@ -24,7 +25,8 @@ public class Homework : MonoBehaviour
 
     public void TakeDamage(int damage, int type)
     {
-        Instantiate(damageObject, transform.position, transform.rotation);
+        Instantiate(damageColor, transform.position, transform.rotation);
+        Instantiate(damageAudio, transform.position, transform.rotation).GetComponent<AudioSource>().Play();
         health -= damage;
 
         if(health <= 0)

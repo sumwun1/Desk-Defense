@@ -14,3 +14,7 @@ Soundtrack: Impending Boom, Moonlight ( https://www.yourclassical.org/story/2017
 This game is mostly inspired by the original Bloons Tower Defense. 
 
 Just so you know, I don't do my big projects the night before they're due. I usually do them the DAY before they're due. 
+
+Crusade Heavy Industry by Kevin MacLeod
+Link: https://incompetech.filmmusic.io/song/4678-crusade-heavy-industry
+License: http://creativecommons.org/licenses/by/4.0/

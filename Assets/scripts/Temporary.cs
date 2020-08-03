@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class Temporary : MonoBehaviour
 {
-    float life;
+    //public bool turnBased;
+    public float life;
 
     // Start is called before the first frame update
     void Start()
     {
-        life = 0.5f / GameObject.Find("_manager").GetComponent<Manager>().tps;
+        if(life <= 0)
+        {
+            life = 0.5f / GameObject.Find("_manager").GetComponent<Manager>().tps;
+        }
     }
 
     // Update is called once per frame
