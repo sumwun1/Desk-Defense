@@ -2028,7 +2028,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 8 turns/s
+  m_Text: fast
 --- !u!222 &666909096
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3120,7 +3120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b283e3859e4c1f49bc7b27a84350ad9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tps: 8
+  rateIndex: 3
   current: 1
   record: 1
   workButton: {fileID: 1701373781}

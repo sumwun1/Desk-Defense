@@ -12,7 +12,7 @@ public class Temporary : MonoBehaviour
     {
         if(life <= 0)
         {
-            life = 0.5f / GameObject.Find("_manager").GetComponent<Manager>().tps;
+            life = 0.5f / Mathf.Pow(2, GameObject.Find("_manager").GetComponent<Manager>().rateIndex);
         }
     }
 

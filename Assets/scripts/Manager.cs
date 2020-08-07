@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Manager : MonoBehaviour
 {
-    public int tps;
+    public int rateIndex;
     public int current;
     public int record;
     public GameObject workButton;
@@ -39,6 +39,8 @@ public class Manager : MonoBehaviour
 	float time;
     string state;
     GameObject selectedSupply;
+    float[] tempoFactors;
+    string[] rateStrings;
     string[] descriptions;
 	Homework[] homeworks;
 
@@ -48,6 +50,18 @@ public class Manager : MonoBehaviour
         UpdateA(1);
         unlocked = 0;
         workAudioIndex = 3;
+        tempoFactors = new float[4];
+        tempoFactors[0] = 12f / 13f;
+        tempoFactors[1] = 1f;
+        tempoFactors[2] = 4f / 3f;
+        tempoFactors[3] = 1f;
+        rateStrings = new string[6];
+        rateStrings[0] = "hyperslow";
+        rateStrings[1] = "very slow";
+        rateStrings[2] = "slow";
+        rateStrings[3] = "fast";
+        rateStrings[4] = "very fast";
+        rateStrings[5] = "hyperfast";
         descriptions = new string[4];
         descriptions[0] = "Pencils do nearby homework. They're stronger against geometry homework.";
         descriptions[1] = "Erasers do all homework depending on distance. They're stronger against history homework.";
@@ -62,14 +76,15 @@ public class Manager : MonoBehaviour
     {
         workButton.SetActive(state == "select" || state == "help");
         helpButton.SetActive(state == "select" || state == "help");
-        slowButton.SetActive((state == "select" || state == "help" || state == "pause") && tps > 1);
-        fastButton.SetActive((state == "select" || state == "help" || state == "pause") && tps < 32);
+        slowButton.SetActive((state == "select" || state == "help" || state == "pause") && rateIndex > 0);
+        fastButton.SetActive((state == "select" || state == "help" || state == "pause") && rateIndex < 5);
         pauseButton.SetActive(state == "work" || state == "pause");
         cancelButton.SetActive(state == "place");
         retakeButton.SetActive(state == "title" || state == "fail");
         centerPanel.SetActive(state == "title" || state == "help" || state == "fail");
+        period = tempoFactors[workAudioIndex] / Mathf.Pow(2, rateIndex);
 
-        for(int b = 0; b < unlocked; b++)
+        for (int b = 0; b < unlocked; b++)
         {
             supplyButtons[b].SetActive(state == "select" || state == "help");
         }
@@ -115,8 +130,12 @@ public class Manager : MonoBehaviour
                             roundText.text = "Current: " + current + ", Record: " + record;
 
                             if (record == 2)
-                            {
-                                //Debug.Log("activating " + unlocked);
+                            { 
+                                for (int b = 0; b < 4; b++)
+                                {
+                                    workAudio[b].Stop();
+                                }
+
                                 unlocked++;
                                 centerText.text = "Unlocked new supply!";
                                 unlockText.SetActive(true);
@@ -134,19 +153,11 @@ public class Manager : MonoBehaviour
 				time = period;
 			}
         }
-        else
-        {
-            for (int b = 0; b < 4; b++)
-            {
-                workAudio[b].Stop();
-            }
-        }
     }
 
     public void NextRound()
     {
         moveHomework = true;
-        period = 1f / (float)tps;
         time = 0;
         spawning = 0;
         float factor = (float)current;
@@ -246,24 +257,24 @@ public class Manager : MonoBehaviour
         {
             if (faster)
             {
-                tps *= 2;
+                rateIndex++;
             }
             else
             {
-                tps /= 2;
+                rateIndex--;
             }
 
-            tpsText.text = tps + " turns/s";
+            tpsText.text = rateStrings[rateIndex];
         }
         else if(state == "help")
         {
             if (faster)
             {
-                centerText.text = "This button doubles turns/s.";
+                centerText.text = "This button doubles turns/second.";
             }
             else
             {
-                centerText.text = "This button halves turns/s.";
+                centerText.text = "This button halves turns/second.";
             }
         }
     }
@@ -272,18 +283,24 @@ public class Manager : MonoBehaviour
     {
         if(state == "work")
         {
+            workAudio[workAudioIndex].Pause();
             state = "pause";
         }
         else if(state == "pause")
         {
-            period = 1f / (float)tps;
             time = 0;
+            workAudio[workAudioIndex].UnPause();
             state = "work";
         }
     }
 
     public void Fail()
     {
+        for (int b = 0; b < 4; b++)
+        {
+            workAudio[b].Stop();
+        }
+
         centerText.text = "You failed.";
         retakeText.SetActive(true);
         failAudio.Play();
