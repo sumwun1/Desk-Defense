@@ -22,16 +22,19 @@ public class Manager : MonoBehaviour
     public Text tpsText;
     public Text roundText;
     public Text centerText;
+    public AudioSource titleAudio;
     public AudioSource unlockAudio;
     public AudioSource failAudio;
 	public Pin pin;
     public GameObject[] supplies;
     public GameObject[] supplyButtons;
+    public AudioSource[] workAudio;
 	bool moveHomework;
     int a;
     int unlocked;
     int spawning;
     int willSpawn;
+    int workAudioIndex;
 	float period;
 	float time;
     string state;
@@ -44,18 +47,34 @@ public class Manager : MonoBehaviour
     {
         UpdateA(1);
         unlocked = 0;
+        workAudioIndex = 3;
         descriptions = new string[4];
         descriptions[0] = "Pencils do nearby homework. They're stronger against geometry homework.";
         descriptions[1] = "Erasers do all homework depending on distance. They're stronger against history homework.";
         descriptions[2] = "Bottles do all homework and then refill. They're stronger against chemistry homework.";
         descriptions[3] = "Folders postpone all homework. Only group projects get done when postponed.";
-        Select();
+        state = "title";
+        //Select();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(state == "work"){
+        workButton.SetActive(state == "select" || state == "help");
+        helpButton.SetActive(state == "select" || state == "help");
+        slowButton.SetActive((state == "select" || state == "help" || state == "pause") && tps > 1);
+        fastButton.SetActive((state == "select" || state == "help" || state == "pause") && tps < 32);
+        pauseButton.SetActive(state == "work" || state == "pause");
+        cancelButton.SetActive(state == "place");
+        retakeButton.SetActive(state == "title" || state == "fail");
+        centerPanel.SetActive(state == "title" || state == "help" || state == "fail");
+
+        for(int b = 0; b < unlocked; b++)
+        {
+            supplyButtons[b].SetActive(state == "select" || state == "help");
+        }
+
+        if (state == "work"){
             time -= Time.deltaTime;
 
             if (time <= 0){
@@ -64,8 +83,8 @@ public class Manager : MonoBehaviour
                     /*Temporary[] temporaries = GameObject.FindObjectsOfType<Temporary>();
                     //Debug.Log(temporaries.Length);*/
 
-                    for (int a = 0; a < homeworks.Length; a++){
-					    homeworks[a].Turn();
+                    for (int b = 0; b < homeworks.Length; b++){
+					    homeworks[b].Turn();
 				    }
 
                     if (willSpawn > 0)
@@ -78,9 +97,9 @@ public class Manager : MonoBehaviour
                 else{
                     Pencil[] pencils = GameObject.FindObjectsOfType<Pencil>();
 
-                    for (int a = 0; a < pencils.Length; a++)
+                    for (int b = 0; b < pencils.Length; b++)
                     {
-                        bool stupidVariable = pencils[a].Turn();
+                        bool stupidVariable = pencils[b].Turn();
                     }
 
                     homeworks = GameObject.FindObjectsOfType<Homework>();
@@ -101,9 +120,6 @@ public class Manager : MonoBehaviour
                                 unlocked++;
                                 centerText.text = "Unlocked new supply!";
                                 unlockText.SetActive(true);
-                                retakeButton.SetActive(true);
-                                pauseButton.SetActive(false);
-                                centerPanel.SetActive(true);
                                 unlockAudio.Play();
                                 state = "fail";
                             }
@@ -117,7 +133,14 @@ public class Manager : MonoBehaviour
                 moveHomework = !moveHomework;				
 				time = period;
 			}
-	    }
+        }
+        else
+        {
+            for (int b = 0; b < 4; b++)
+            {
+                workAudio[b].Stop();
+            }
+        }
     }
 
     public void NextRound()
@@ -145,19 +168,10 @@ public class Manager : MonoBehaviour
         }
         else if(state == "select")
         {
-            workButton.SetActive(false);
-            helpButton.SetActive(false);
-            fastButton.SetActive(false);
-            slowButton.SetActive(false);
-            pauseButton.SetActive(true);
-
-            for (int a = 0; a < unlocked; a++)
-            {
-                supplyButtons[a].SetActive(false);
-            }
-
             current = 1;
             state = "work";
+            workAudioIndex = (workAudioIndex + 1) % 4;
+            workAudio[workAudioIndex].Play();
             NextRound();
         }
     }
@@ -179,7 +193,6 @@ public class Manager : MonoBehaviour
             else
             {
                 centerText.text = "Your grades are too low!";
-                centerPanel.SetActive(true);
                 state = "help";
             }
         }
@@ -187,29 +200,16 @@ public class Manager : MonoBehaviour
 
     public void Select()
     {
-        workButton.SetActive(true);
-        helpButton.SetActive(true);
-        centerPanel.SetActive(false);
-        pauseButton.SetActive(false);
-        retakeButton.SetActive(false);
-        cancelButton.SetActive(false);
         unlockText.SetActive(false);
         retakeText.SetActive(false);
+        titleAudio.Stop();
         failAudio.Stop();
-        fastButton.SetActive(tps < 32);
-        slowButton.SetActive(tps > 1);
         state = "select";
         homeworks = GameObject.FindObjectsOfType<Homework>();
 
-        for (int a = 0; a < homeworks.Length; a++)
+        for (int b = 0; b < homeworks.Length; b++)
         {
-            Destroy(homeworks[a].gameObject);
-        }
-
-        for (int a = 0; a < unlocked; a++)
-        {
-            //Debug.Log("activating " + unlocked);
-            supplyButtons[a].SetActive(true);
+            Destroy(homeworks[b].gameObject);
         }
     }
 
@@ -221,17 +221,7 @@ public class Manager : MonoBehaviour
         }
         else if(state == "select")
         {
-            workButton.SetActive(false);
-            helpButton.SetActive(false);
-            fastButton.SetActive(false);
-            slowButton.SetActive(false);
-            cancelButton.SetActive(true);
             state = "place";
-
-            for (int a = 0; a < unlocked; a++)
-            {
-                supplyButtons[a].SetActive(false);
-            }
         }
     }
 
@@ -246,7 +236,6 @@ public class Manager : MonoBehaviour
             centerText.text = "To buy supplies, click the supply's button and click a desk. Each supply costs 2 A's." + 
                 "\n\nClick an already-bought supply to sell it." +
                 "\n\nTry clicking some other buttons.";
-            centerPanel.SetActive(true);
             state = "help";
         }
     }
@@ -264,8 +253,6 @@ public class Manager : MonoBehaviour
                 tps /= 2;
             }
 
-            fastButton.SetActive(tps < 32);
-            slowButton.SetActive(tps > 1);
             tpsText.text = tps + " turns/s";
         }
         else if(state == "help")
@@ -285,14 +272,10 @@ public class Manager : MonoBehaviour
     {
         if(state == "work")
         {
-            fastButton.SetActive(tps < 32);
-            slowButton.SetActive(tps > 1);
             state = "pause";
         }
         else if(state == "pause")
         {
-            fastButton.SetActive(false);
-            slowButton.SetActive(false);
             period = 1f / (float)tps;
             time = 0;
             state = "work";
@@ -303,9 +286,6 @@ public class Manager : MonoBehaviour
     {
         centerText.text = "You failed.";
         retakeText.SetActive(true);
-        retakeButton.SetActive(true);
-        pauseButton.SetActive(false);
-        centerPanel.SetActive(true);
         failAudio.Play();
         state = "fail";
     }
