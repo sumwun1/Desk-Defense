@@ -5,8 +5,6 @@ using UnityEngine;
 public class Pencil : MonoBehaviour
 {
     //bool started;
-    Desk desk;
-    Manager _manager;
 	Desk[] desks;
 	
 	// Start is called before the first frame update
@@ -15,11 +13,9 @@ public class Pencil : MonoBehaviour
         //started = false;
     }
 
-    public void Start0(Desk input)
+    public void Start0()
     {
-        desk = input;
-        _manager = GameObject.Find("_manager").GetComponent<Manager>();
-        desks = GameObject.Find("desks").GetComponent<Desks>().StartPencil(desk);
+        desks = GameObject.Find("desks").GetComponent<Desks>().StartPencilEraser(GetComponent<Supply>().GetDesk());
 
         for (int a = 1; a < 5; a++)
         {
@@ -57,7 +53,7 @@ public class Pencil : MonoBehaviour
         }*/
     }
 
-    public bool Turn()
+    public void Turn()
     {
         for(int a = 0; a < 5; a++)
         {
@@ -65,7 +61,7 @@ public class Pencil : MonoBehaviour
             {
                 if(desks[a].GetHomework() != null)
                 {
-                    desks[a].GetHomework().TakeDamage(1, 0);
+                    desks[a].GetHomework().TakeDamage(7, 0);
                     break;
                 }
             }
@@ -75,17 +71,6 @@ public class Pencil : MonoBehaviour
         {
             _manager.EndRound();
         }*/
-        return (true);
-    }
-
-    private void OnMouseUp()
-    {
-        if (_manager.GetState() == "select")
-        {
-            _manager.UpdateA(2);
-            desk.occupied = false;
-            Destroy(gameObject);
-        }
     }
 
     public void Swap(int a, int b){

@@ -18,6 +18,8 @@ public class Manager : MonoBehaviour
     public GameObject centerPanel;
     public GameObject unlockText;
     public GameObject retakeText;
+    public GameObject selectedImage;
+    public GameObject unlockImage;
     public Text aText;
     public Text tpsText;
     public Text roundText;
@@ -28,17 +30,20 @@ public class Manager : MonoBehaviour
 	public Pin pin;
     public GameObject[] supplies;
     public GameObject[] supplyButtons;
+    public Texture[] textures;
     public AudioSource[] workAudio;
 	bool moveHomework;
+    bool showOverwrite;
     int a;
     int unlocked;
-    int spawning;
-    int willSpawn;
+    int supplyId;
+    /*int spawning;
+    int willSpawn;*/
     int workAudioIndex;
 	float period;
 	float time;
     string state;
-    GameObject selectedSupply;
+    //GameObject selectedSupply;
     float[] tempoFactors;
     string[] rateStrings;
     string[] descriptions;
@@ -48,7 +53,9 @@ public class Manager : MonoBehaviour
     void Start()
     {
         UpdateA(1);
+        showOverwrite = false;
         unlocked = 0;
+        supplyId = -1;
         workAudioIndex = 3;
         tempoFactors = new float[4];
         tempoFactors[0] = 12f / 13f;
@@ -82,6 +89,7 @@ public class Manager : MonoBehaviour
         cancelButton.SetActive(state == "place");
         retakeButton.SetActive(state == "title" || state == "fail");
         centerPanel.SetActive(state == "title" || state == "help" || state == "fail");
+        selectedImage.SetActive(state == "place");
         period = tempoFactors[workAudioIndex] / Mathf.Pow(2, rateIndex);
 
         for (int b = 0; b < unlocked; b++)
@@ -102,24 +110,24 @@ public class Manager : MonoBehaviour
 					    homeworks[b].Turn();
 				    }
 
-                    if (willSpawn > 0)
+                    bool stupidVariable = pin.Turn();
+                    homeworks = GameObject.FindObjectsOfType<Homework>();
+                    /*if (willSpawn > 0)
                     {
-                        bool stupidVariable = pin.Turn();
                         willSpawn--;
-                        homeworks = GameObject.FindObjectsOfType<Homework>();
-                    }
+                    }*/
                 }
                 else{
-                    Pencil[] pencils = GameObject.FindObjectsOfType<Pencil>();
+                    Supply[] supplies = GameObject.FindObjectsOfType<Supply>();
 
-                    for (int b = 0; b < pencils.Length; b++)
+                    for (int b = 0; b < supplies.Length; b++)
                     {
-                        bool stupidVariable = pencils[b].Turn();
+                        bool stupidVariable = supplies[b].Turn();
                     }
 
                     homeworks = GameObject.FindObjectsOfType<Homework>();
 
-                    if (homeworks.Length < 1 && willSpawn < 1)
+                    if (homeworks.Length < 1 && pin.GetRemaining() < 1)
                     {
                         current++;
 
@@ -129,18 +137,21 @@ public class Manager : MonoBehaviour
                             record = current;
                             roundText.text = "Current: " + current + ", Record: " + record;
 
-                            if (record == 2)
+                            if (record == 2 || record == 3 || record == 5 || record == 7)
                             { 
                                 for (int b = 0; b < 4; b++)
                                 {
                                     workAudio[b].Stop();
                                 }
 
+                                unlockImage.GetComponent<RawImage>().texture = textures[unlocked];
                                 unlocked++;
                                 centerText.text = "Unlocked new supply!";
                                 unlockText.SetActive(true);
+                                unlockImage.SetActive(true);
                                 unlockAudio.Play();
                                 state = "fail";
+                                return;
                             }
                         }
 
@@ -159,16 +170,17 @@ public class Manager : MonoBehaviour
     {
         moveHomework = true;
         time = 0;
-        spawning = 0;
-        float factor = (float)current;
+        pin.StartRound();
+        /*int[] homeworkIndexes = new int[4];
+        int factor = current;
 
-        while (factor > 1f)
+        /*while (factor > 1f)
         {
             spawning++;
             factor /= 2;
-        }
+        }*/
 
-        willSpawn = spawning;
+        //willSpawn = spawning;
     }
 
     public void StartWork()
@@ -191,6 +203,7 @@ public class Manager : MonoBehaviour
     {
         if (state == "help")
         {
+            showOverwrite = true;
             centerText.text = descriptions[id];
         }
         else if (state == "select")
@@ -198,7 +211,8 @@ public class Manager : MonoBehaviour
             if (a >= 2)
             {
                 //change sprite of selected supply
-                selectedSupply = supplies[id];
+                supplyId = id;
+                selectedImage.GetComponent<RawImage>().texture = textures[id];
                 TogglePlace();
             }
             else
@@ -213,6 +227,7 @@ public class Manager : MonoBehaviour
     {
         unlockText.SetActive(false);
         retakeText.SetActive(false);
+        unlockImage.SetActive(false);
         titleAudio.Stop();
         failAudio.Stop();
         state = "select";
@@ -288,7 +303,7 @@ public class Manager : MonoBehaviour
         }
         else if(state == "pause")
         {
-            time = 0;
+            //time = 0;
             workAudio[workAudioIndex].UnPause();
             state = "work";
         }
@@ -313,9 +328,9 @@ public class Manager : MonoBehaviour
         aText.text = a + " A's";
     }
 
-    public GameObject GetSupply()
+    public int GetSupplyId()
     {
-        return (selectedSupply);
+        return (supplyId);
     }
 
     public string GetState()
@@ -323,8 +338,13 @@ public class Manager : MonoBehaviour
         return (state);
     }
 
-    public int GetSpawning()
+    public bool GetOverwrite()
+    {
+        return (showOverwrite);
+    }
+
+    /*public int GetSpawning()
     {
         return (spawning);
-    }
+    }*/
 }

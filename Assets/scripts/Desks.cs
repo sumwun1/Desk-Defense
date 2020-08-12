@@ -30,7 +30,7 @@ public class Desks : MonoBehaviour
         
     }
 	
-	public Desk[] StartPencil(Desk desk)
+	public Desk[] StartPencilEraser(Desk desk)
 	{
         //Debug.Log(desk.x + " " + desk.y);
         Desk[] output = new Desk[5];

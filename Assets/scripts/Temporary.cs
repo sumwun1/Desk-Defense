@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Temporary : MonoBehaviour
 {
-    //public bool turnBased;
+    public bool moveBack;
     public float life;
 
     // Start is called before the first frame update
@@ -24,6 +24,11 @@ public class Temporary : MonoBehaviour
         if(life <= 0)
         {
             Destroy(gameObject);
+        }
+
+        if (moveBack)
+        {
+            transform.Translate(64 * Vector3.back.normalized * Time.deltaTime, Space.World);
         }
     }
 }

@@ -15,15 +15,15 @@ Just so you know, I don't do my big projects the night before they're due. I usu
 
 Soundtrack: 
 
-Professor and the Plant by Kevin MacLeod
+Call to Adventure by Kevin MacLeod
 
-Link: https://incompetech.filmmusic.io/song/3542-constancy-part-one
+Link: https://incompetech.filmmusic.io/song/3470-call-to-adventure
 
 License: http://creativecommons.org/licenses/by/4.0/
 
 Constancy Part One by Kevin MacLeod
 
-Link: https://incompetech.filmmusic.io/song/4244-professor-and-the-plant
+Link: https://incompetech.filmmusic.io/song/3542-constancy-part-one
 
 License: http://creativecommons.org/licenses/by/4.0/
 

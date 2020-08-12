@@ -8,24 +8,46 @@ public class Desk : MonoBehaviour
 	public int x;
 	public int y;
 	public int index;
-    Manager _manager;
+    public Manager _manager;
+    //public Desks desks;
 	Homework homework;
 
     private void OnMouseUp()
     {
-        if (!occupied && _manager.GetState() == "place" && _manager.GetSupply() != null)
+        if (!occupied && _manager.GetState() == "place" && _manager.GetSupplyId() >= 0)
         {
-            Instantiate(_manager.GetSupply(), transform.position, transform.rotation).GetComponent<Pencil>().Start0(this);
+            Instantiate(_manager.supplies[_manager.GetSupplyId()], transform.position, transform.rotation).GetComponent<Supply>().Start0(this);
             _manager.UpdateA(-2);
             _manager.TogglePlace();
             occupied = true;
+
+            /*if(_manager.GetSupplyId() == 0)
+            {
+                supply.
+            }
+            else if(_manager.GetSupplyId() == 1)
+            {
+                //supply.GetComponent<Pencil>().Start0(this);
+            }
+            else if(_manager.GetSupplyId() == 2)
+            {
+                //supply.GetComponent<Pencil>().Start0(this);
+            }
+            else if(_manager.GetSupplyId() == 3)
+            {
+                //supply.GetComponent<Pencil>().Start0(this);
+            }
+            else
+            {
+                
+            }*/
         }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        _manager = GameObject.Find("_manager").GetComponent<Manager>();
+        //_manager = GameObject.Find("_manager").GetComponent<Manager>();
     }
 	
 	/*public int GetIndex(){
