@@ -34,9 +34,13 @@ public class Manager : MonoBehaviour
     public AudioSource[] workAudio;
 	bool moveHomework;
     bool showOverwrite;
+    bool triggerBottle;
+    bool triggerFolder;
     int a;
     int unlocked;
     int supplyId;
+    int bottleState;
+    int folderState;
     /*int spawning;
     int willSpawn;*/
     int workAudioIndex;
@@ -72,8 +76,8 @@ public class Manager : MonoBehaviour
         descriptions = new string[4];
         descriptions[0] = "Pencils do nearby homework. They're stronger against geometry homework.";
         descriptions[1] = "Erasers do all homework depending on distance. They're stronger against history homework.";
-        descriptions[2] = "Bottles do all homework and then refill. They're stronger against chemistry homework.";
-        descriptions[3] = "Folders postpone all homework. Only group projects get done when postponed.";
+        descriptions[2] = "Bottles do a constant amount divided over all homework, and then refill. They're stronger against chemistry homework.";
+        descriptions[3] = "Folders delay all homework. Only group projects get done when delayed.";
         state = "title";
         //Select();
     }
@@ -125,6 +129,29 @@ public class Manager : MonoBehaviour
                         bool stupidVariable = supplies[b].Turn();
                     }
 
+                    if (triggerBottle && bottleState <= 0)
+                    {
+                        for(int b = 0; b < homeworks.Length; b++)
+                        {
+                            homeworks[b].TakeDamage(Mathf.FloorToInt(42f / homeworks.Length), 2);
+                        }
+
+                        bottleState = 5;
+                    }
+
+                    triggerBottle = false;
+                    triggerFolder = false;
+
+                    if (bottleState > 0)
+                    {
+                        bottleState--;
+                    }
+
+                    if (folderState > 0)
+                    {
+                        folderState--;
+                    }
+
                     homeworks = GameObject.FindObjectsOfType<Homework>();
 
                     if (homeworks.Length < 1 && pin.GetRemaining() < 1)
@@ -170,6 +197,8 @@ public class Manager : MonoBehaviour
     {
         moveHomework = true;
         time = 0;
+        bottleState = 0;
+        folderState = 0;
         pin.StartRound();
         /*int[] homeworkIndexes = new int[4];
         int factor = current;
@@ -326,6 +355,16 @@ public class Manager : MonoBehaviour
     {
         a += addition;
         aText.text = a + " A's";
+    }
+
+    public void TriggerBottle()
+    {
+        triggerBottle = true;
+    }
+
+    public void TriggerFolder()
+    {
+        triggerFolder = true;
     }
 
     public int GetSupplyId()

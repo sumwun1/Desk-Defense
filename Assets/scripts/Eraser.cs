@@ -53,12 +53,9 @@ public class Eraser : MonoBehaviour
             {
                 for(int y = 0; y < 4; y++)
                 {
-                    //if (desks.deskArray[x, y].GetHomework() != null) {
-                        desks
-                        .deskArray[x, y]
-                        .GetHomework()
-                        .TakeDamage(damages[x, y], 1);
-                    //}
+                    if (desks.deskArray[x, y].GetHomework() != null) {
+                        desks.deskArray[x, y].GetHomework().TakeDamage(damages[x, y], 1);
+                    }
                 }
             }
         }

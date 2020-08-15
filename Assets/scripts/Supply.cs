@@ -55,7 +55,7 @@ public class Supply : MonoBehaviour
         }
         else if (id == 2)
         {
-
+            GetComponent<Bottle>().Turn();
         }
         else if (id == 3)
         {
