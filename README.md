@@ -1,9 +1,7 @@
 # Desk Defense
 Everything is due today.
 
-To play this game, download and run DeskDefense.exe.
-
-This game is not finished. I still need to add speed-changing buttons, sounds, more visual effects, make the UI look better, add more supply types, more homework types, and balance the different supply types.
+To play this game, download the whole project and run Desk-Defense.exe. You don't need to download the gitignore and README if you don't want to.
 
 This game is 100% action-free, RNG-free, treasure-free, dialog-free, win-condition-free, sidequest-free, permadeath-free, and projectile-free. 
 
