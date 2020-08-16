@@ -23,12 +23,12 @@ public class Homework : MonoBehaviour
         desks = GameObject.Find("desks");
 		b = GameObject.Find("b");
 		_manager = GameObject.Find("_manager").GetComponent<Manager>();
-        health = (int)Math.Ceiling(11f * _manager.current / _manager.pin.GetTotal());
+        health = (int)Math.Ceiling(10f * _manager.current / Math.Sqrt(_manager.pin.GetTotal()));
     }
 
     public void TakeDamage(int damage, int type)
     {
-        Instantiate(damageColor, transform.position, transform.rotation);
+        Instantiate(damageColor, transform.position, transform.rotation).GetComponent<Temporary>().SetId(type);
         Instantiate(damageAudio, transform.position, transform.rotation).GetComponent<AudioSource>().Play();
 
         if(type == id)
@@ -43,7 +43,7 @@ public class Homework : MonoBehaviour
                 damage *= 2;
             }else if(id == 3)
             {
-                damage = 35;
+                damage = 30;
             }else
             {
                 Debug.Log("id and type were " + id);

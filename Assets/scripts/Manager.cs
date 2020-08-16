@@ -15,6 +15,7 @@ public class Manager : MonoBehaviour
     public GameObject pauseButton;
     public GameObject cancelButton;
     public GameObject retakeButton;
+    public GameObject forfeitButton;
     public GameObject centerPanel;
     public GameObject unlockText;
     public GameObject retakeText;
@@ -77,7 +78,7 @@ public class Manager : MonoBehaviour
         descriptions[0] = "Pencils do nearby homework. They're stronger against geometry homework.";
         descriptions[1] = "Erasers do all homework depending on distance. They're stronger against history homework.";
         descriptions[2] = "Bottles do a constant amount divided over all homework, and then refill. They're stronger against chemistry homework.";
-        descriptions[3] = "Folders delay all homework. Only group projects get done when delayed.";
+        descriptions[3] = "Folders delay all homework. Group projects get done when delayed.";
         state = "title";
         //Select();
     }
@@ -92,6 +93,7 @@ public class Manager : MonoBehaviour
         pauseButton.SetActive(state == "work" || state == "pause");
         cancelButton.SetActive(state == "place");
         retakeButton.SetActive(state == "title" || state == "fail");
+        forfeitButton.SetActive(state == "work" || state == "pause");
         centerPanel.SetActive(state == "title" || state == "help" || state == "fail");
         selectedImage.SetActive(state == "place");
         period = tempoFactors[workAudioIndex] / Mathf.Pow(2, rateIndex);
@@ -109,12 +111,17 @@ public class Manager : MonoBehaviour
 					homeworks = GameObject.FindObjectsOfType<Homework>();
                     /*Temporary[] temporaries = GameObject.FindObjectsOfType<Temporary>();
                     //Debug.Log(temporaries.Length);*/
+                    if(folderState != 3)
+                    {
+                        for (int b = 0; b < homeworks.Length; b++)
+                        {
+                            homeworks[b].Turn();
+                        }
 
-                    for (int b = 0; b < homeworks.Length; b++){
-					    homeworks[b].Turn();
-				    }
+                        bool stupidVariable = pin.Turn();
+                        //Debug.Log("turned");
+                    }
 
-                    bool stupidVariable = pin.Turn();
                     homeworks = GameObject.FindObjectsOfType<Homework>();
                     /*if (willSpawn > 0)
                     {
@@ -123,24 +130,7 @@ public class Manager : MonoBehaviour
                 }
                 else{
                     Supply[] supplies = GameObject.FindObjectsOfType<Supply>();
-
-                    for (int b = 0; b < supplies.Length; b++)
-                    {
-                        bool stupidVariable = supplies[b].Turn();
-                    }
-
-                    if (triggerBottle && bottleState <= 0)
-                    {
-                        for(int b = 0; b < homeworks.Length; b++)
-                        {
-                            homeworks[b].TakeDamage(Mathf.FloorToInt(42f / homeworks.Length), 2);
-                        }
-
-                        bottleState = 5;
-                    }
-
-                    triggerBottle = false;
-                    triggerFolder = false;
+                    //Debug.Log(folderState);
 
                     if (bottleState > 0)
                     {
@@ -152,6 +142,33 @@ public class Manager : MonoBehaviour
                         folderState--;
                     }
 
+                    for (int b = 0; b < supplies.Length; b++)
+                    {
+                        bool stupidVariable = supplies[b].Turn();
+                    }
+
+                    if (triggerBottle && bottleState <= 0)
+                    {
+                        for (int b = 0; b < homeworks.Length; b++)
+                        {
+                            homeworks[b].TakeDamage(Mathf.FloorToInt(30f / homeworks.Length), 2);
+                        }
+
+                        bottleState = 4;
+                    }
+
+                    if (triggerFolder && folderState <= 0)
+                    {
+                        for (int b = 0; b < homeworks.Length; b++)
+                        {
+                            homeworks[b].TakeDamage(0, 3);
+                        }
+
+                        folderState = 3;
+                    }
+
+                    triggerBottle = false;
+                    triggerFolder = false;
                     homeworks = GameObject.FindObjectsOfType<Homework>();
 
                     if (homeworks.Length < 1 && pin.GetRemaining() < 1)
@@ -266,6 +283,11 @@ public class Manager : MonoBehaviour
         {
             Destroy(homeworks[b].gameObject);
         }
+
+        for (int b = 0; b < 4; b++)
+        {
+            workAudio[b].Stop();
+        }
     }
 
     public void TogglePlace()
@@ -365,6 +387,11 @@ public class Manager : MonoBehaviour
     public void TriggerFolder()
     {
         triggerFolder = true;
+    }
+
+    public float GetPeriod()
+    {
+        return (period);
     }
 
     public int GetSupplyId()

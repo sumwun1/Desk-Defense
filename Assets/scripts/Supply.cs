@@ -59,7 +59,7 @@ public class Supply : MonoBehaviour
         }
         else if (id == 3)
         {
-
+            GetComponent<Folder>().Turn();
         }
         else
         {

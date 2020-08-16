@@ -61,7 +61,7 @@ public class Pencil : MonoBehaviour
             {
                 if(desks[a].GetHomework() != null)
                 {
-                    desks[a].GetHomework().TakeDamage(7, 0);
+                    desks[a].GetHomework().TakeDamage(6, 0);
                     break;
                 }
             }

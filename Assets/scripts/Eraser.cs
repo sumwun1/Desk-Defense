@@ -29,6 +29,14 @@ public class Eraser : MonoBehaviour
         damages = new int[4, 4];
         deskArray = GameObject.Find("desks").GetComponent<Desks>().StartPencilEraser(GetComponent<Supply>().GetDesk());
         SetDamage(GetComponent<Supply>().GetDesk().x, GetComponent<Supply>().GetDesk().y, 5);
+
+        /*for (int x = 0; x < 4; x++)
+        {
+            for (int y = 0; y < 4; y++)
+            {
+                Debug.Log(damages[x, y]);
+            }
+        }*/
     }
 
     public void Turn()
@@ -63,12 +71,14 @@ public class Eraser : MonoBehaviour
 
     public void SetDamage(int x, int y, int damage)
     {
-        //Debug.Log(damages[0, 0]);
+        //Debug.Log(damages[x, y] + "  " + damage);
 
         if (damages[x, y] >= damage)
         {
             return;
         }
+        
+        damages[x, y] = damage;
 
         if (x > 0)
         {
