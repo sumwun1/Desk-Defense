@@ -1,9 +1,11 @@
 # Desk Defense
 Everything is due today.
 
-To play this game, download the whole project and run Desk-Defense.exe. You don't need to download the gitignore and README if you don't want to.
+To play this game, download the whole project and run Desk-Defense.exe. The gitignore and README shouldn't affect the game, so you don't need to download them.
 
 This game is 100% action-free, RNG-free, treasure-free, dialog-free, win-condition-free, sidequest-free, permadeath-free, and projectile-free. 
+
+The source code is here: https://github.com/anAwsomePerson/Develop-Desk-Defense
 
 Software used: Unity, GitHub, Visual Studio, Notepad++, Paint, YTMP3, Audacity, Voice Recorder, Roblox
 
