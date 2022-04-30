@@ -1,13 +1,13 @@
 # Desk Defense
 Everything is due today.
 
-To play this game, download the whole project and run Desk-Defense.exe. The gitignore and README shouldn't affect the game, so you don't need to download them.
+To play this game, download the project, open the folder for your operating system, and run the application file in that folder.
 
 I also made comics that are not very related to this game, but I still want you to click this link and read them: https://tapas.io/series/drawn-curtains/info
 
 This game is 100% action-free, RNG-free, treasure-free, character-free, win-condition-free, sidequest-free, permadeath-free, and projectile-free. 
 
-The source code is here: https://github.com/anAwsomePerson/Develop-Desk-Defense
+The source code is here: https://github.com/sumwun1/Develop-Desk-Defense
 
 Software used: Unity, GitHub, Visual Studio, Notepad++, Paint, YTMP3, Audacity, Roblox
 
